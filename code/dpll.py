@@ -12,7 +12,7 @@ def rm_term(circ: Circuit, trm: Term) -> Circuit:
     return [tuple(t for t in clse if t != trm) for clse in circ]
 
 
-def pure_literal_resolution(circ: Circuit) -> Update:
+def pure_literal_elimination(circ: Circuit) -> Update:
     terms = [t for clse in circ for t in clse]
     pures = {t for t in terms if -t not in terms}
 
@@ -25,21 +25,17 @@ def pure_literal_resolution(circ: Circuit) -> Update:
 
 
 def unit_clause_resolution(circ: Circuit, assigns: Assignment = {}) -> Update:
-    if all(len(clse) != 1 for clse in circ):
+    if all(len(clse) > 1 for clse in circ):
         return assigns, circ
 
     units = {clse[0] for clse in circ if len(clse) == 1}
     assigns = {**assigns, **{u.variable: u.sign for u in units}}
 
     new_circ = circ.copy()
-    while len(units) > 0:
-        u = list(units)[0]
+    for u in units:
         new_circ = rm_term(rm_clse(new_circ, u), -u)
 
-        units = {clse[0] for clse in new_circ if len(clse) == 1}
-        assigns = {**assigns, **{u.variable: u.sign for u in units}}
-
-    return assigns, new_circ#unit_clause_resolution(new_circ, assigns)
+    return unit_clause_resolution(new_circ, assigns)
 
 
 def dpll(circ: Circuit, assigns: Assignment = {}) -> Solution:
@@ -49,8 +45,9 @@ def dpll(circ: Circuit, assigns: Assignment = {}) -> Solution:
     if any(len(clse) == 0 for clse in circ):
         return False, {}
 
+    # do resolution
     unit_a, unit_circ = unit_clause_resolution(circ)
-    pure_a, resolved_circ = pure_literal_resolution(unit_circ)
+    pure_a, resolved_circ = pure_literal_elimination(unit_circ)
 
     assigns = {**assigns, **pure_a, **unit_a}
     # did resolution solve the problem

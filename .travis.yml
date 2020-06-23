@@ -8,9 +8,9 @@ python:
 # from Travis
 install:
     - pip install jupyter
-    - wget https://github.com/hakimel/reveal.js/archive/master.zip
+    - wget https://github.com/neal-o-r/revealjs/archive/master.zip
     - unzip master.zip
-    - mv reveal.js-master reveal.js
+    - mv revealjs-master reveal.js
 
 script:
     - jupyter nbconvert functional_programming.ipynb --to slides --reveal-prefix=reveal.js

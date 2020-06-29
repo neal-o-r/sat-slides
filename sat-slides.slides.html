@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
 
-<title>sat_slides slides</title>
+<title>sat-slides slides</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13268,15 +13268,12 @@ a.anchor-link {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Outline">Outline<a class="anchor-link" href="#Outline">&#182;</a></h1><ul>
-<li>What is the SAT problem?</li>
-</ul>
-<p><br></p>
-<ul>
-<li>Why is it important?</li>
-</ul>
-<p><br></p>
-<ul>
-<li>How can we solve it?</li>
+<li><p>What is the SAT problem?</p>
+</li>
+<li><p>How can we solve it?</p>
+</li>
+<li><p>Examples</p>
+</li>
 </ul>
 
 </div>
@@ -13285,10 +13282,815 @@ a.anchor-link {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Before-we-begin">Before we begin<a class="anchor-link" href="#Before-we-begin">&#182;</a></h1><p>Slides: <a href="http://www.n-o-r.xyz/sat-slides/">n-o-r.xyz/sat-slides/</a></p>
+<p>Notebook: <a href="http://www.github.com/neal-o-r/sat-slides/">github.com/neal-o-r/sat-slides/</a></p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<center>
+<H1> What is the SAT problem? <H1>
+</center>
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="What-is-SAT?">What is SAT?<a class="anchor-link" href="#What-is-SAT?">&#182;</a></h1><p>The SAT problem asks the question, can we find a satisfying solution to a formula of propositional logic?</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Hold on, what's a <em>formula of propositional logic</em>?</p>
+
+</div>
+</div>
+</div></div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Propositional-logic">Propositional logic<a class="anchor-link" href="#Propositional-logic">&#182;</a></h1><p>Take some Boolean variables, $x_i \in ({\rm True}, {\rm False})$</p>
+<div class="highlight"><pre><span></span><span class="n">x_i</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">x_i</span> <span class="o">=</span> <span class="bp">False</span>
+</pre></div>
+<p>We can choose to negate a variable, $\neg x_i$.</p>
+<div class="highlight"><pre><span></span><span class="ow">not</span> <span class="n">x_i</span>
+</pre></div>
+<p>And we can choose to combine variables using $\lor$ (or) or $\land$ (and)</p>
+<div class="highlight"><pre><span></span><span class="n">x_1</span> <span class="ow">or</span> <span class="n">x_2</span>
+<span class="n">x_1</span> <span class="ow">and</span> <span class="n">x_2</span>
+<span class="c1"># or</span>
+<span class="nb">any</span><span class="p">([</span><span class="n">x_1</span><span class="p">,</span> <span class="n">x_2</span><span class="p">])</span>
+<span class="nb">all</span><span class="p">([</span><span class="n">x_1</span><span class="p">,</span> <span class="n">x_2</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Propositional-logic">Propositional logic<a class="anchor-link" href="#Propositional-logic">&#182;</a></h1><p>Using these rules we can make formulas,</p>
+$$
+(a \land \neg b) \lor (c \land (\neg c \land b))
+$$<p>or, in Python,</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">a</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">b</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span><span class="n">c</span> <span class="ow">and</span> <span class="p">((</span><span class="ow">not</span> <span class="n">c</span><span class="p">)</span> <span class="ow">and</span> <span class="n">b</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The SAT question is, can we find a setting for the variables $a$, $b$ and $c$, such that the whole formula evauluates to ${\rm True}$</p>
+
+</div>
+</div>
+</div></div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<center>
+<H1> So what, who cares? <H1>
+</center>
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="SAT-Problem">SAT Problem<a class="anchor-link" href="#SAT-Problem">&#182;</a></h1><p>This is a very old problem (dating back to the Greeks), and unsurprisingly it's pretty hard to solve.</p>
+<p>The problem is in NP, which means there's no polynomial time algorithm -- solving a formula with $n$ variables will take $\sim O(2^n)$</p>
+<p>So in general we can't do better than just guessing...</p>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="SAT-Problem">SAT Problem<a class="anchor-link" href="#SAT-Problem">&#182;</a></h1><p>That said, we have good solvers that scale to $10^5$ variables</p>
+<p>The problem is NP-complete, which means any other NP problem can be written in a SAT problems</p>
+<p>If you want to solve knapsack, TSP, graph-colouring, etc - SAT solvers are a good place to start</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<center>
+<H1> How can we solve this problem? <H1>
+</center>
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="CNF">CNF<a class="anchor-link" href="#CNF">&#182;</a></h1><p>To start, it turns out that every formula can be written in <em>Conjunctive Normal Form</em> - which is a fancy way of saying an "AND of ORs"</p>
+<p>By applying the rules of logic, you can quickly write any formula in a form like:</p>
+$$
+(a \lor b \lor \dots ) \land \\
+(b \lor \neg d \lor \dots ) \land \\
+(\neg c \lor a \lor \dots ) \land \\
+\dots
+$$
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Definitions">Definitions<a class="anchor-link" href="#Definitions">&#182;</a></h1>$$
+(a \lor b \lor \neg c) \land \\
+(\neg a \lor \neg c ) \land \\
+(\neg b \lor d \lor a )
+$$<p>Each element is a variable - here we have $a$, $b$, $c$, and $d$</p>
+<p>Each combination of variable and sign is a <em>term</em> - i.e. $a$ and $\neg a$ are different terms.</p>
+<p>Each set of $\lor$'s is a <em>clause</em></p>
+<p>All the clauses $\land$ together is a <em>circuit</em></p>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Python-definitions">Python definitions<a class="anchor-link" href="#Python-definitions">&#182;</a></h1>
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Term</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variable</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;¬&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sign</span> <span class="o">=</span> <span class="ow">not</span> <span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;¬&quot;</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">assign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">b</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sign</span> <span class="k">else</span> <span class="p">(</span><span class="ow">not</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">Term</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Term</span><span class="p">(</span><span class="s2">&quot;¬x&quot;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>x
+¬x
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Term</span><span class="p">(</span><span class="s2">&quot;¬x&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[5]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Python-definitions">Python definitions<a class="anchor-link" href="#Python-definitions">&#182;</a></h1>
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Variable</span> <span class="o">=</span> <span class="nb">str</span>
+<span class="n">Clause</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Term</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+<span class="n">Circuit</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">Clause</span><span class="p">]</span>
+
+<span class="c1"># Now we can define circuits, for example:</span>
+<span class="n">circuit</span> <span class="o">=</span> <span class="p">[(</span><span class="n">Term</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">),</span> <span class="n">Term</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">),</span> <span class="n">Term</span><span class="p">(</span><span class="s2">&quot;¬c&quot;</span><span class="p">)),</span>
+           <span class="p">(</span><span class="n">Term</span><span class="p">(</span><span class="s2">&quot;¬a&quot;</span><span class="p">),</span> <span class="n">Term</span><span class="p">(</span><span class="s2">&quot;¬c&quot;</span><span class="p">)),</span>
+           <span class="p">(</span><span class="n">Term</span><span class="p">(</span><span class="s2">&quot;¬b&quot;</span><span class="p">),</span> <span class="n">Term</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">),</span> <span class="n">Term</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">))]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[(a, b, ¬c), (¬a, ¬c), (¬b, d, a)]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+$$
+(a \lor b \lor \neg c) \land \\
+(\neg a \lor \neg c ) \land \\
+(\neg b \lor d \lor a )
+$$
+</div>
+</div>
+</div></div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Assignment">Assignment<a class="anchor-link" href="#Assignment">&#182;</a></h1>
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># We also introduce an assigment, a mapping of var -&gt; setting</span>
+<span class="n">Assignment</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Variable</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span>
+
+<span class="c1"># check if `any` term in a clause is True</span>
+<span class="k">def</span> <span class="nf">eval_clause</span><span class="p">(</span><span class="n">clse</span><span class="p">:</span> <span class="n">Clause</span><span class="p">,</span> <span class="n">assigns</span><span class="p">:</span> <span class="n">Assignment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">any</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">assigns</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">variable</span><span class="p">])</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">clse</span><span class="p">])</span> 
+ 
+<span class="c1"># check if `all` clauses evaluate to True</span>
+<span class="k">def</span> <span class="nf">eval_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">:</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">assigns</span><span class="p">:</span> <span class="n">Assignment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">eval_clause</span><span class="p">(</span><span class="n">clse</span><span class="p">,</span> <span class="n">assigns</span><span class="p">)</span> <span class="k">for</span> <span class="n">clse</span> <span class="ow">in</span> <span class="n">circ</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">assignment</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+
+<span class="c1"># Does this assignment satisfy our circuit?</span>
+<span class="n">eval_circuit</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">assignment</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[8]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Exhaustive-solution">Exhaustive solution<a class="anchor-link" href="#Exhaustive-solution">&#182;</a></h1>
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Solution</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Assignment</span><span class="p">]</span> 
+
+<span class="k">def</span> <span class="nf">exhaustive_search</span><span class="p">(</span><span class="n">circ</span><span class="p">:</span> <span class="n">Circuit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Solution</span><span class="p">:</span>
+    <span class="n">variables</span> <span class="o">=</span> <span class="p">{</span><span class="n">term</span><span class="o">.</span><span class="n">variable</span> <span class="k">for</span> <span class="n">clse</span> <span class="ow">in</span> <span class="n">circ</span> <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">clse</span><span class="p">}</span>
+        
+    <span class="k">for</span> <span class="n">bools</span> <span class="ow">in</span> <span class="n">product</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="n">repeat</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)):</span>
+        <span class="n">assigns</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="n">bools</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">eval_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="n">assigns</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">assigns</span>
+        
+    <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="p">{}</span>
+
+<span class="n">exhaustive_search</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[9]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(True, {&#39;a&#39;: True, &#39;b&#39;: True, &#39;d&#39;: True, &#39;c&#39;: False})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+$$
+(a \lor b \lor \neg c) \land \\
+(\neg a \lor \neg c ) \land \\
+(\neg b \lor d \lor a )
+$$
+</div>
+</div>
+</div></div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Exhaustive-solution">Exhaustive solution<a class="anchor-link" href="#Exhaustive-solution">&#182;</a></h1><p>Exhaustive solutions are bad news, there are $2^n$ configurations.</p>
+<p>$2^4$ is fine, but things get out of hand quickly. $2^{300}$ is more atoms than there are in the universe.</p>
+<p>So, can we do better than trying every solution? No in theory, but in practice yes!</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<center>
+<H1> Doing better <H1>
+</center>
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="DPLL">DPLL<a class="anchor-link" href="#DPLL">&#182;</a></h1><p>The Davis–Putnam–Logemann–Loveland (DPLL) algorithm, invented in 1962</p>
+<p>Still the best method for solving SAT problems</p>
+<p>Could take $2^n$ steps, but in practice this algorithm is pretty fast, and scales to large problems</p>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="DPLL">DPLL<a class="anchor-link" href="#DPLL">&#182;</a></h1><p>The core algorithm is pretty simple, starting with an input circuit $C$</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>Make an assumption about one of the variables in $C$, e.g. set $a = {\rm True}$</li>
+</ol>
+
+</div>
+</div>
+</div></div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>Use that assumption to simplify the circuit, $C \rightarrow C^\prime$</li>
+</ol>
+
+</div>
+</div>
+</div></div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>Recursively call DPLL on the new, simpler $C^\prime$</li>
+</ol>
+
+</div>
+</div>
+</div></div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="DPLL">DPLL<a class="anchor-link" href="#DPLL">&#182;</a></h1><ol>
+<li>Make an assumption about one of the variables in $C$, e.g. set $a = {\rm True}$</li>
+<li>Use that assumption to simplify the circuit, $C \rightarrow C^\prime$</li>
+<li>Recursively call DPLL on the new, simpler $C^\prime$</li>
+</ol>
+<p>There are 2 possible results:</p>
+<ul>
+<li>This process continues until we simplify the circuit to $\emptyset$, this means all the assumptions were valid.<ul>
+<li>This is becaues an empty circuit is ${\rm True}$</li>
+</ul>
+</li>
+<li>We reach a contradiction, which means we need to go back and change an assumption<ul>
+<li>This is because an empty clause is ${\rm False}$</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="How-do-we-simplify-a-circuit?">How do we simplify a circuit?<a class="anchor-link" href="#How-do-we-simplify-a-circuit?">&#182;</a></h1>$$
+C = 
+(a \lor b \lor \neg c) \land \\
+(\neg a \lor \neg c ) \land \\
+(\neg b \lor d \lor a )
+$$<p>Assume that $a = {\rm True}$.</p>
+<p>Any clause containing the term $a$, is ${\rm True}$ by definition.</p>
+<p>We can ignore $\neg a$ in any clause, since it can't contribute to making the clause ${\rm True}$</p>
+$$
+C = (\neg c)
+$$
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For this circuit, if we now set $c = {\rm False}$ we have a solution</p>
+
+</div>
+</div>
+</div></div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="How-do-we-simplify-a-circuit?">How do we simplify a circuit?<a class="anchor-link" href="#How-do-we-simplify-a-circuit?">&#182;</a></h1>
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># remove any clause that contains the Term</span>
+<span class="k">def</span> <span class="nf">rm_clse</span><span class="p">(</span><span class="n">circ</span><span class="p">:</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">trm</span><span class="p">:</span> <span class="n">Term</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Circuit</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">clse</span> <span class="k">for</span> <span class="n">clse</span> <span class="ow">in</span> <span class="n">circ</span> <span class="k">if</span> <span class="n">trm</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">clse</span><span class="p">]</span>
+
+<span class="c1"># Remove the Term from every clause in the circuit</span>
+<span class="k">def</span> <span class="nf">rm_term</span><span class="p">(</span><span class="n">circ</span><span class="p">:</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">trm</span><span class="p">:</span> <span class="n">Term</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Circuit</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">clse</span> <span class="k">if</span> <span class="n">t</span> <span class="o">!=</span> <span class="n">trm</span><span class="p">)</span> <span class="k">for</span> <span class="n">clse</span> <span class="ow">in</span> <span class="n">circ</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+<span class="n">rm_term</span><span class="p">(</span><span class="n">rm_clse</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">Term</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)),</span> <span class="n">Term</span><span class="p">(</span><span class="s2">&quot;¬a&quot;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[(a, b, ¬c), (¬a, ¬c), (¬b, d, a)]
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[10]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[(¬c,)]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">simple_dpll</span><span class="p">(</span><span class="n">circ</span><span class="p">:</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">assigns</span><span class="p">:</span> <span class="n">Assignment</span> <span class="o">=</span> <span class="p">{})</span> <span class="o">-&gt;</span> <span class="n">Solution</span><span class="p">:</span>
+    <span class="c1"># empty circuit is True</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span> <span class="ow">is</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">assigns</span>
+    <span class="c1"># empty clause is False</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">clse</span><span class="p">)</span> <span class="ow">is</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">clse</span> <span class="ow">in</span> <span class="n">circ</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="p">{}</span>
+
+    <span class="c1"># pick a variable</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">Term</span><span class="p">(</span><span class="n">circ</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">variable</span><span class="p">)</span>
+    <span class="c1"># set it to True, simplify, recurse</span>
+    <span class="n">new_circ</span> <span class="o">=</span> <span class="n">rm_term</span><span class="p">(</span><span class="n">rm_clse</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="o">-</span><span class="n">v</span><span class="p">)</span>
+    <span class="n">sat</span><span class="p">,</span> <span class="n">pot_assign</span> <span class="o">=</span> <span class="n">simple_dpll</span><span class="p">(</span><span class="n">new_circ</span><span class="p">,</span> <span class="p">{</span><span class="o">**</span><span class="n">assigns</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">v</span><span class="o">.</span><span class="n">variable</span><span class="p">:</span> <span class="kc">True</span><span class="p">}})</span>
+    <span class="k">if</span> <span class="n">sat</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sat</span><span class="p">,</span> <span class="n">pot_assign</span>
+    <span class="c1"># or set it to False, simplify, recurse</span>
+    <span class="n">new_circ</span> <span class="o">=</span> <span class="n">rm_term</span><span class="p">(</span><span class="n">rm_clse</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="o">-</span><span class="n">v</span><span class="p">),</span> <span class="n">v</span><span class="p">)</span>
+    <span class="n">sat</span><span class="p">,</span> <span class="n">pot_assign</span> <span class="o">=</span> <span class="n">simple_dpll</span><span class="p">(</span><span class="n">new_circ</span><span class="p">,</span> <span class="p">{</span><span class="o">**</span><span class="n">assigns</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">v</span><span class="o">.</span><span class="n">variable</span><span class="p">:</span> <span class="kc">False</span><span class="p">}})</span>
+    <span class="k">if</span> <span class="n">sat</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sat</span><span class="p">,</span> <span class="n">pot_assign</span>
+
+    <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="p">{}</span>
+
+<span class="n">simple_dpll</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[11]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(True, {&#39;a&#39;: True, &#39;c&#39;: False})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="DPLL">DPLL<a class="anchor-link" href="#DPLL">&#182;</a></h1><p>That's the core DPLL algorithm, but there are 2 other important kinds of simplifications</p>
+<ol>
+<li>Unit clause propogation</li>
+<li>Pure term resolution</li>
+</ol>
+<p>These simplification methods are pretty straightforward, and implementing them makes the algorithm much more powerful</p>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Unit-Clause-Propogation">Unit Clause Propogation<a class="anchor-link" href="#Unit-Clause-Propogation">&#182;</a></h1><p>If a clause contains only one term (like clause 4 below), it's called a <em>unit clause</em></p>
+$$
+(a \lor b \lor \neg c) \land \\
+(\neg a \lor \neg c ) \land \\
+(\neg b \lor d \lor a ) \land \\
+(b) \land \\
+(b \lor \neg d)
+$$<p>That clause has to be ${\rm True}$, or the whole circuit fails.</p>
+<p>So set it to ${\rm True}$ (here $b = {\rm True}$), and simplify.</p>
+<p>This is super-useful, we often get cascade of unit clauses which makes the circuit much simpler</p>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Pure-Term-Resolution">Pure Term Resolution<a class="anchor-link" href="#Pure-Term-Resolution">&#182;</a></h1><p>If a term only appears as positive, or negative, it's called <em>pure</em>, like $\neg c$ below</p>
+$$
+(a \lor b \lor \neg c) \land \\
+(\neg a \lor \neg c ) \land \\
+(\neg b \lor d \lor a ) \land \\
+(b) \land \\
+(b \lor \neg d)
+$$<p>we can make that term ${\rm True}$ everywhere without effecting anything else.</p>
+<p>So set it to ${\rm True}$ (here $c = {\rm False}$), and simplify.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<center>
+<H1> Let's see some examples <H1>
+</center>
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Let's-start-with-the-Graph-Colouring-problem">Let's start with the Graph Colouring problem<a class="anchor-link" href="#Let's-start-with-the-Graph-Colouring-problem">&#182;</a></h1><p>Can we colour a graph such that no nodes that are connected are the same colour?</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="img/2graph_uncoloured.png" alt="graph"></p>
+
+</div>
+</div>
+</div></div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Graph-Colouring">Graph Colouring<a class="anchor-link" href="#Graph-Colouring">&#182;</a></h1><p>We can easily write this as a SAT problem</p>
+<p><img src="img/2graph_uncoloured.png" alt="graph"></p>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">colour2</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2"># Assign at least one colour to region 1</span>
+<span class="s2">R1 B1</span>
+
+<span class="s2"># But no more than one colour</span>
+<span class="s2">¬R1 ¬B1</span>
+
+<span class="s2"># Similarly for region 2</span>
+<span class="s2">R2 B2</span>
+<span class="s2">¬R2 ¬B2</span>
+
+<span class="s2"># Make sure regions 1 and 2 are not coloured the same since they are neighbours</span>
+<span class="s2">¬R1 ¬R2</span>
+<span class="s2">¬B1 ¬B2</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">dpll</span><span class="p">(</span><span class="n">make_circ</span><span class="p">(</span><span class="n">parse_txt</span><span class="p">(</span><span class="n">colour2</span><span class="p">)))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[29]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(True, {&#39;B1&#39;: True, &#39;R1&#39;: False, &#39;B2&#39;: False, &#39;R2&#39;: True})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="img/2graph.png" alt="graph"></p>
+
+</div>
+</div>
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="img/contact-card.png" alt="contact"></p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div></section></section>
 </div>
 </div>
